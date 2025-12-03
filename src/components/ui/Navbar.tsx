@@ -1,15 +1,29 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import logo from "../../assets/ui/logo.png";
 import "./Navbar.css";
 
-const Navbar: React.FC = () => {
+type NavPage = "study" | "garden";
+
+interface NavbarProps {
+  onNavigate?: (page: NavPage) => void;
+  coins?: number;
+}
+
+const Navbar: React.FC<NavbarProps> = ({ onNavigate, coins = 0 }) => {
+  const handleLeftClick = (e: React.MouseEvent) => {
+    // if you want to call onNavigate in addition to navigating via Link
+    onNavigate?.("study");
+  };
+
+  const handleRightClick = (e: React.MouseEvent) => {
+    onNavigate?.("garden");
+  };
+
   return (
     <header className="main-header">
       <div className="left-section">
-        {/* Logo wrapper with two clickable regions and a non-clickable center divider */}
         <div className="logo-wrapper" aria-hidden={false}>
-          <img src={logo} alt="Study Garden logo" className="navbar-logo-img" />
+          <img src="/assets/ui/logo.png" alt="Study Garden logo" className="navbar-logo-img" />
 
           {/* Left clickable area -> Study */}
           <Link
@@ -17,6 +31,7 @@ const Navbar: React.FC = () => {
             className="logo-overlay left"
             aria-label="Go to Study section"
             title="Study"
+            onClick={handleLeftClick}
           />
 
           {/* Center area (pig) - intentionally non-clickable */}
@@ -28,12 +43,11 @@ const Navbar: React.FC = () => {
             className="logo-overlay right"
             aria-label="Go to Garden section"
             title="Garden"
+            onClick={handleRightClick}
           />
         </div>
 
-        {/* Remove duplicate Study/Garden text links — only keep other nav links if needed */}
         <nav className="nav-options" aria-label="Main navigation">
-          {/* If you don't want any text nav items, remove the contents of this <nav> */}
           <Link to="/profile" className="nav-link">Profile</Link>
         </nav>
       </div>
@@ -41,7 +55,7 @@ const Navbar: React.FC = () => {
       <div className="right-section">
         <div className="piggy-bank" title="Coins">
           <img src="/icons/piggy.svg" className="piggy-icon" alt="" />
-          <span className="coin-count">0</span>
+          <span className="coin-count">{coins}</span>
         </div>
         <button className="profile-btn">Sign In</button>
       </div>

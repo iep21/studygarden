@@ -1,6 +1,5 @@
 import "./AuthPage.css";
 import { useState } from "react";
-import logo from '../assets/ui/logo.png';
 import LoginForm from "../components/auth/LoginForm";
 // import RegisterForm from "../components/auth/RegisterForm"; // for later
 
@@ -14,12 +13,14 @@ const AuthPage: React.FC<AuthPageProps> = ({ onLoginSuccess }) => {
   return (
     <div className="auth-bg">
       <div className="auth-card">
+        {/* Load logo from public/ so we do NOT import it as a module */}
         <img
-          src={logo}
+          src="/assets/ui/logo.png"
           alt="Study Garden Logo"
           className="auth-logo"
         />
         <h1 className="auth-title">Welcome to Study Garden!</h1>
+
         {mode === "login" ? (
           <>
             <LoginForm onSuccess={onLoginSuccess} />
